@@ -2,7 +2,7 @@
 
 from distutils.core import setup
 
-setup(name='calabar',
+setup(name='kalamari',
       version='1.0',
       description='Python package to intelligently extract values from JSON',
       author='Prithaj Nath',

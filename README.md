@@ -1,10 +1,10 @@
-## Calabar
-Calabar is a Python package that makes extracting data from JSON a lot easier. Instead of typing out explicit absolute paths to desired keys, you can just pass them as parameters to calabar methods or use query strings. You can also choose your preferred way of traversal.
+## Kalamari
+Kalamari is a Python package that makes extracting data from JSON a lot easier. Instead of typing out explicit absolute paths to desired keys, you can just pass them as parameters to kalamari methods or use query strings. You can also choose your preferred way of traversal.
 
 ### Initialization
 All major extraction methods are available through instances of the `smartJSON` class.
 ```py
->>> from calabar import smartJSON
+>>> from kalamari import smartJSON
 >>> import requests
 >>> r = requests.get('https://yourapi.io/someendpoint') # returns some JSON
 >>> data = smartJSON(r.content)
@@ -31,7 +31,7 @@ Say that the above GET request returns the following information and you'd like 
 }
 ```
 
-With calabar, this can be achieved with only a few lines of code
+With kalamari, this can be achieved with only a few lines of code
 
 ```py
 >>> _views = data.get_attrs("total_views")

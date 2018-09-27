@@ -1,0 +1,1 @@
+from .kalamari import smartJSON

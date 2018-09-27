@@ -17,3 +17,16 @@ class smartJSON:
                 else:
                     q.append(current_obj[key])
         return result
+
+    def get_attrs_preorder(self, *attrs):
+        stack, result = [], {i:[] for i in attrs}
+        stack.append(self.json)
+        while stack:
+            current_obj = stack.pop()
+            for key in current_obj:
+                if type(current_obj[key]) != dict:
+                    if key in result:
+                        result[key].append(current_obj[key])
+                else:
+                    stack.append(current_obj[key])
+        return result

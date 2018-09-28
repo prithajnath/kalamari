@@ -1,4 +1,21 @@
+.DS_Store
+.env
 *.pyc
-dist/
+*.pyo
 env/
-kalamari.egg-info/
+env*
+dist/
+build/
+*.egg
+*.egg-info/
+_mailinglist
+.tox/
+.cache/
+.pytest_cache/
+.idea/
+docs/_build/
+
+# Coverage reports
+htmlcov/
+.coverage
+.coverage.*

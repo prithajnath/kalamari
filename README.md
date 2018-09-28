@@ -1,5 +1,5 @@
 ## Kalamari
-Kalamari is a Python package that makes extracting data from JSON a lot easier. Instead of typing out explicit absolute paths to desired keys, you can just pass them as parameters to kalamari methods or use query strings. You can also choose your preferred way of traversal.
+Kalamari is a Python package that makes extracting data from JSON a lot easier. Instead of typing out explicit absolute paths to desired keys, you can just pass them as parameters to kalamari methods.
 
 ### Initialization
 All major extraction methods are available through instances of the `smartJSON` class.
@@ -19,12 +19,14 @@ Say that the above GET request returns the following information and you'd like 
       "title": "Pytest tutorial (1/5)",
       "url": "https://myvid.com/454F5gK9700e",
       "author": "pythonguy226",
+      "email": "pythonguy226@gmail.com",
       "total_views": "4561452"
     },
     "1": {
       "title": "JavaScript async await",
       "url": "https://myvid.com/784F5gF9800e",
       "author": "jsguy995",
+      "email": "jsguy995@gmail.com",
       "total_views": "784569"
     }
   }
@@ -43,9 +45,18 @@ Pretty cool right? You can also fetch more than one attribute at a time.
 
 ```py
 >>> views_w_authors = data.get_attrs("author","total_views")
->>> views_with_authors
+>>> views_w_authors
 >>> {'author': ['pythonguy226', 'jsguy995'], 'total_views': ['4561452', '784569']}
 ```
-### Level order methods
+### Extraction methods
 
 * `get_attrs()`
+ * This is the simplest method. It accepts the names of all the attributes that you wish to extract and returns a `dict`. (Used in above example)
+* `get_attrs_by_value_regex()`
+ * This method accepts a regular expression and returns all attributes whose values match that regular expression
+
+ ```py
+>>> attrs_w_guy = data.get_attrs_by_value_regex("(.*)guy(.*)")
+>>> attrs_w_guy
+>>> {'author': ['pythonguy226', 'jsguy995'], 'email': ['pythonguy226@gmail.com', 'jsguy995@gmail.com']}
+ ```

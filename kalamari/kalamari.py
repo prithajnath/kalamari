@@ -1,12 +1,13 @@
 from collections import deque
 from json import loads
 
+
 class smartJSON:
     def __init__(self, json):
         self.json = loads(json)
 
     def get_attrs(self, *attrs):
-        q, result = deque(), {i:[] for i in attrs}
+        q, result = deque(), {i: [] for i in attrs}
         q.append(self.json)
         while q:
             current_obj = q.popleft()
@@ -19,7 +20,7 @@ class smartJSON:
         return result
 
     def get_attrs_preorder(self, *attrs):
-        stack, result = [], {i:[] for i in attrs}
+        stack, result = [], {i: [] for i in attrs}
         stack.append(self.json)
         while stack:
             current_obj = stack.pop()

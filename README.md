@@ -39,7 +39,13 @@ With kalamari, this can be achieved with only a few lines of code
 >>> views
 >>> 4561452
 ```
+Pretty cool right? You can also fetch more than one attribute at a time.
 
+```py
+>>> views_w_authors = data.get_attrs("author","total_views")
+>>> views_with_authors
+>>> {'author': ['pythonguy226', 'jsguy995'], 'total_views': ['4561452', '784569']}
+```
 ### Level order methods
 
 * `get_attrs()`

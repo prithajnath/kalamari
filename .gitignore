@@ -1,1 +1,4 @@
 *.pyc
+dist/
+env/
+kalamari.egg-info/

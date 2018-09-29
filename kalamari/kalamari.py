@@ -58,3 +58,21 @@ class smartJSON:
                 if type(current_obj[key]) == dict:
                     q.append(current_obj[key])
         return result
+
+    def get_attrs_by_parent(self, rule, *attrs):
+        q = deque()
+        q.append(self.json)
+        regex = re.compile(rule)
+        object_with_desired_parents = {}
+        while q:
+            current_obj = q.popleft()
+            for key in current_obj:
+                if type(current_obj[key]) == dict:
+                    match = regex.search(key)
+                    if match:
+                        try:
+                            object_with_desired_parents[key].append(current_obj[key])
+                        except KeyError:
+                            object_with_desired_parents[key] = [current_obj[key]]
+                    q.append(current_obj[key])
+        return object_with_desired_parents

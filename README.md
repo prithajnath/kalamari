@@ -1,5 +1,19 @@
 ## Kalamari
-Kalamari is a Python package that makes extracting data from JSON a lot easier. Instead of typing out explicit absolute paths to desired keys, you can just pass them as parameters to kalamari methods.
+Kalamari is a convenience wrapper for Python's built-in `json` module that makes extracting data from JSON a lot easier. Instead of typing out absolute paths to your desired keys, you can just pass the keys as parameters to kalamari methods.
+
+### Installation
+This package is not available through Pypi yet, so you have to manually install it. Go ahead and clone the repository and run the following command
+
+```sh
+python3 setup.py sdist
+```
+This will create a sub-directory called `dist` which will contain a compressed archive file. The file format defaults to `tar.gz` on POSIX systems and `.zip` on Windows.
+
+After creating this archive file, you can install the package via `pip3`
+
+```sh
+sudo pip3 install kalamari-0.1dev.tar.gz
+```
 
 ### Initialization
 All major extraction methods are available through instances of the `smartJSON` class.
@@ -9,7 +23,7 @@ All major extraction methods are available through instances of the `smartJSON` 
 >>> r = requests.get('https://yourapi.io/someendpoint') # returns some JSON
 >>> data = smartJSON(r.content)
 ```
-
+### Usage
 Say that the above GET request returns the following information and you'd like to extract the highest number of views accumulated for a video
 
 ```json
@@ -52,11 +66,11 @@ Pretty cool right? You can also fetch more than one attribute at a time.
 
 * `get_attrs()`
  * This is the simplest method. It accepts the names of all the attributes that you wish to extract and returns a `dict`. (Used in above example)
-* `get_attrs_by_value_regex()`
+* `get_attrs_by_value()`
  * This method accepts a regular expression and returns all attributes whose values match that regular expression
 
  ```py
->>> attrs_w_guy = data.get_attrs_by_value_regex("(.*)guy(.*)")
->>> attrs_w_guy
->>> {'author': ['pythonguy226', 'jsguy995'], 'email': ['pythonguy226@gmail.com', 'jsguy995@gmail.com']}
+>>> attrs_w_numbers = data.get_attrs_by_value("[0-9]")
+>>> attrs_w_numbers
+>>> {'title': ['Pytest tutorial (1/5)'], 'url': ['https://myvid.com/454F5gK9700e', 'https://myvid.com/784F5gF9800e'], 'author': ['pythonguy226', 'jsguy995'], 'email': ['pythonguy226@gmail.com', 'jsguy995@gmail.com'], 'total_views': ['4561452', '784569']}
  ```

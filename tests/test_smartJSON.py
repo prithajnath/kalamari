@@ -39,6 +39,19 @@ def test_max_video_views(basic_json):
     max_view = max(list(views))
     assert max_view == 4561452
 
-def test_get_attrs_by_value_regex(basic_json):
-    guy_keys = basic_json.get_attrs_by_value_regex("(.*)guy(.*)")
-    assert guy_keys == {'author': ['pythonguy226', 'jsguy995'], 'email': ['pythonguy226@gmail.com', 'jsguy995@gmail.com']}
+def test_get_attrs_by_value_w_numeric_regex(basic_json):
+    numeric_keys = basic_json.get_attrs_by_value("[0-9]")
+    assert numeric_keys == {
+        'title': ['Pytest tutorial (1/5)'],
+        'url': ['https://myvid.com/454F5gK9700e',
+                'https://myvid.com/784F5gF9800e'],
+        'author': ['pythonguy226', 'jsguy995'],
+        'email': ['pythonguy226@gmail.com',
+                'jsguy995@gmail.com'],
+        'total_views': ['4561452', '784569']}
+
+def test_get_attrs_by_value_w_simple_string(basic_json):
+    guy_keys = basic_json.get_attrs_by_value("guy")
+    assert guy_keys == {
+        'author': ['pythonguy226', 'jsguy995'],
+        'email': ['pythonguy226@gmail.com', 'jsguy995@gmail.com']}

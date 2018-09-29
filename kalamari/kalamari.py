@@ -20,7 +20,7 @@ class smartJSON:
                     q.append(current_obj[key])
         return result
 
-    def get_attrs_by_value_regex(self, rule):
+    def get_attrs_by_value(self, rule):
         q, result = deque(), {}
         regex = re.compile(rule)
         q.append(self.json)

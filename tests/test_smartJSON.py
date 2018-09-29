@@ -55,3 +55,10 @@ def test_get_attrs_by_value_w_simple_string(basic_json):
     assert guy_keys == {
         'author': ['pythonguy226', 'jsguy995'],
         'email': ['pythonguy226@gmail.com', 'jsguy995@gmail.com']}
+
+def test_get_attrs_by_key_w_simple_regex(basic_json):
+    attrs_w_t = basic_json.get_attrs_by_key("t(.*)")
+    assert attrs_w_t == {
+        'title': ['Pytest tutorial (1/5)', 'JavaScript async await'],
+        'author': ['pythonguy226', 'jsguy995'],
+        'total_views': ['4561452', '784569']}

@@ -2,7 +2,7 @@
 Kalamari is a convenience wrapper for Python's built-in `json` module that makes extracting data from JSON a lot easier. Instead of typing out absolute paths to your desired keys, you can just pass the keys as parameters to kalamari methods.
 
 ### Installation
-This package is not available through Pypi yet, so you have to manually install it. Go ahead and clone the repository and run the following command
+This package is not available through PyPI yet, so you have to manually install it. Go ahead and clone the repository and run the following command
 
 ```sh
 python3 setup.py sdist
@@ -66,6 +66,8 @@ Pretty cool right? You can also fetch more than one attribute at a time.
 
 * `get_attrs()`
  * This is the simplest method. It accepts the names of all the attributes that you wish to extract and returns a `dict`. (Used in above example)
+* `get_attrs_by_key()`
+ * This method accepts a regular expression and returns all attributes that match that regular expression
 * `get_attrs_by_value()`
  * This method accepts a regular expression and returns all attributes whose values match that regular expression
 

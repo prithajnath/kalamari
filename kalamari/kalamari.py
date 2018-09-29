@@ -37,3 +37,21 @@ class smartJSON:
                 else:
                     q.append(current_obj[key])
         return result
+
+    def get_attrs_by_key(self, rule):
+        q, result = deque(), {}
+        regex = re.compile(rule)
+        q.append(self.json)
+        while q:
+            current_obj = q.popleft()
+            for key in current_obj:
+                if type(current_obj[key]) != dict:
+                    match = regex.search(key)
+                    if match:
+                        try:
+                            result[key].append(current_obj[key])
+                        except KeyError:
+                            result[key] = [current_obj[key]]
+                else:
+                    q.append(current_obj[key])
+        return result

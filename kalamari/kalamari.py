@@ -1,11 +1,16 @@
 from collections import deque
 from json import loads
 import re
+import os
 
 
 class smartJSON:
     def __init__(self, json):
-        self.json = loads(json)
+        if os.path.isfile(json):
+            with open(json, "r") as f:
+                self.json = loads(f.read())
+        else:
+            self.json = loads(json)
 
     def get_attrs(self, *attrs):
         q, result = deque(), {i: [] for i in attrs}
@@ -13,10 +18,9 @@ class smartJSON:
         while q:
             current_obj = q.popleft()
             for key in current_obj:
-                if type(current_obj[key]) != dict:
-                    if key in result:
-                        result[key].append(current_obj[key])
-                else:
+                if key in result:
+                    result[key].append(current_obj[key])
+                if type(current_obj[key]) == dict:
                     q.append(current_obj[key])
         return result
 
@@ -45,13 +49,12 @@ class smartJSON:
         while q:
             current_obj = q.popleft()
             for key in current_obj:
-                if type(current_obj[key]) != dict:
-                    match = regex.search(key)
-                    if match:
-                        try:
-                            result[key].append(current_obj[key])
-                        except KeyError:
-                            result[key] = [current_obj[key]]
-                else:
+                match = regex.search(key)
+                if match:
+                    try:
+                        result[key].append(current_obj[key])
+                    except KeyError:
+                        result[key] = [current_obj[key]]
+                if type(current_obj[key]) == dict:
                     q.append(current_obj[key])
         return result

@@ -76,3 +76,10 @@ Pretty cool right? You can also fetch more than one attribute at a time.
 >>> attrs_w_numbers
 >>> {'title': ['Pytest tutorial (1/5)'], 'url': ['https://myvid.com/454F5gK9700e', 'https://myvid.com/784F5gF9800e'], 'author': ['pythonguy226', 'jsguy995'], 'email': ['pythonguy226@gmail.com', 'jsguy995@gmail.com'], 'total_views': ['4561452', '784569']}
  ```
+* `get_attrs_by_parent()`
+ * This method accepts a regular expression and returns all attributes whose immediate parent matches that regular expression
+
+### TODO
+ * Add method chaining
+    * All methods should return a `smartJSON` object.
+    * A `smartJSON` object should be convertible to a `dict`

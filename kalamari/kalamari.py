@@ -31,14 +31,14 @@ class smartJSON:
         while q:
             current_obj = q.popleft()
             for key in current_obj:
-                if type(current_obj[key]) != dict:
+                if type(current_obj[key]) == str:
                     match = regex.search(current_obj[key])
                     if match:
                         try:
                             result[key].append(current_obj[key])
                         except KeyError:
                             result[key] = [current_obj[key]]
-                else:
+                elif type(current_obj[key]) == dict:
                     q.append(current_obj[key])
         return result
 

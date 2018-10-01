@@ -1,4 +1,6 @@
 ## Kalamari
+[![Build Status](https://travis-ci.org/prithajnath/kalamari.svg?branch=master)](https://travis-ci.org/prithajnath/kalamari)
+
 Kalamari is a convenience wrapper for Python's built-in `json` module that makes extracting data from JSON a lot easier. Instead of typing out absolute paths to your desired keys, you can just pass the keys as parameters to kalamari methods.
 
 ### Installation

@@ -16,8 +16,9 @@ class smartJSON:
                 self.json = loads(json)
 
     def __repr__(self):
-        keys = list(self.json.keys())
-        return f"{keys[0]}, {keys[1]}, {keys[2]}...{keys[-1]}"
+        keys = {i:type(self.json[i]) for i in self.json.keys()}
+        value_type_symbols = {dict:"{...}", list:"[...]", str:"..."}
+        return "{ " + " , ".join([i + f" : {value_type_symbols[keys[i]]}" for i in keys]) + " }"
 
     def get_attrs(self, *attrs):
         q, result = deque(), {i: [] for i in attrs}

@@ -6,11 +6,18 @@ import os
 
 class smartJSON:
     def __init__(self, json):
-        if os.path.isfile(json):
-            with open(json, "r") as f:
-                self.json = loads(f.read())
+        if type(json) == dict:
+            self.json = json
         else:
-            self.json = loads(json)
+            if os.path.isfile(json):
+                with open(json, "r") as f:
+                    self.json = loads(f.read())
+            else:
+                self.json = loads(json)
+
+    def __repr__(self):
+        keys = list(self.json.keys())
+        return f"{keys[0]}, {keys[1]}, {keys[2]}...{keys[-1]}"
 
     def get_attrs(self, *attrs):
         q, result = deque(), {i: [] for i in attrs}

@@ -6,6 +6,10 @@ python:
 install:
   - python setup.py sdist && cd dist && sudo pip install kalamari-0.1dev.tar.gz && cd ..
   - pip install -e ".[dev]"
+  - pip install coveralls
 # command to run tests
 script:
-  - pytest
+  - coverage run -m pytest
+  - coverage report
+after_success:
+  - coveralls

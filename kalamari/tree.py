@@ -1,4 +1,4 @@
-from exceptions import OverrideRootError
+from exceptions import OverrideRootError, TreeHeightError
 
 
 class Node:
@@ -25,10 +25,6 @@ class Node:
     def get_children(self):
         return self.children
 
-    @classmethod
-    def create_fake_root(cls, data="root"):
-        return cls(data)
-
 
 class Tree:
     def __init__(self, root=None):
@@ -37,6 +33,9 @@ class Tree:
             self.tree = {0: [self.root]}
         else:
             self.tree = {}
+
+    def __repr__(self):
+        return str(self.tree)
 
     def __getitem__(self, level):
         return self.tree[level]
@@ -50,7 +49,10 @@ class Tree:
         if self.root:
             if level:
                 try:
-                    self.tree[level].append(node)
+                    if level <= self.depth:
+                        self.tree[level].append(node)
+                    else:
+                        raise TreeHeightError
                 except KeyError:
                     self.tree[level] = [node]
             else:
@@ -82,13 +84,14 @@ class Tree:
         #                             | -- node7 -- ...
         pass
 
-    def get_tree_depth(self):
-        return max(list(self.tree.keys())) + 1
+    @property
+    def depth(self):
+        return sum(1 for key in self.tree.keys())
 
     @classmethod
     def tree_from_dict(cls, json_dict):
         from collections import deque
-        tree = Tree()
+        tree = cls()
         q = deque()
         q.append({
             'parent': Node("root"),

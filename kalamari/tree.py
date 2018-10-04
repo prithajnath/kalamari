@@ -6,6 +6,7 @@ class Node:
         self.data = data
         self.parent = parent
         self.children = []
+        self.container = []
 
         if self.parent:
             self.parent.add_child(self)
@@ -19,11 +20,20 @@ class Node:
     def add_child(self, node):
         self.children.append(node)
 
+    def add_value(self, value):
+        self.container.append(value)
+
     def get_parent(self):
         return self.parent
 
     def get_children(self):
         return self.children
+
+    def get_value(self):
+        if len(self.container) == 1:
+            return self.container[0]
+        else:
+            return self.container
 
 
 class Tree:
@@ -115,5 +125,6 @@ class Tree:
                     tree.add_node(node_obj, current_obj['level'])
                 else:
                     node_obj = Node(i, current_parent)
+                    node_obj.add_value(current_obj['children'][i])
                     tree.add_node(node_obj, current_obj['level'])
         return tree

@@ -31,6 +31,20 @@ class smartJSON:
                 result[node.data].append(node.get_value())
         return result
 
+    def get_attrs_by(self, f, *attrs):
+        result = {}
+        for n, node in self.json:
+            try:
+                if f(n, node) and node.container:
+                    if node.data in attrs:
+                        try:
+                            result[node.data].append(node.get_value())
+                        except KeyError:
+                            result[node.data] = [node.get_value()]
+            except AttributeError: # tree exhausted
+                continue
+        return result
+
     def get_attrs_by_value(self, rule):
         result = {}
         regex = re.compile(rule)

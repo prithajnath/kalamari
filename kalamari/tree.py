@@ -1,4 +1,4 @@
-from exceptions import OverrideRootError, TreeHeightError
+from .exceptions import OverrideRootError, TreeHeightError
 
 
 class Node:

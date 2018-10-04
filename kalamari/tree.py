@@ -1,3 +1,6 @@
+from exceptions import OverrideRootError
+
+
 class Node:
     def __init__(self, data, parent=None):
         self.data = data
@@ -26,36 +29,35 @@ class Node:
     def create_fake_root(cls, data="root"):
         return cls(data)
 
+
 class Tree:
     def __init__(self, root=None):
         self.root = root
         if self.root:
-            self.tree = {0:[self.root]}
-            self.current_level = 0
+            self.tree = {0: [self.root]}
         else:
             self.tree = {}
-            self.current_level = -1
 
     def __getitem__(self, level):
         return self.tree[level]
 
     def __iter__(self):
-        pass
+        for i in self.tree:
+            for j in self.tree[i]:
+                yield (i, j)
 
-
-    def add_node(self, node):
+    def add_node(self, node, level=0):
         if self.root:
-            try:
-                self.tree[self.current_level].append(node)
-            except KeyError:
-                self.tree[self.current_level] = [node]
+            if level:
+                try:
+                    self.tree[level].append(node)
+                except KeyError:
+                    self.tree[level] = [node]
+            else:
+                raise OverrideRootError
         else:
             self.root = node
-            self.tree.update({0:[self.root]})
-            self.current_level += 1
-
-    def update_level(self):
-        self.current_level += 1
+            self.tree.update({0: [self.root]})
 
     def reveal(self):
         # do bfs
@@ -81,26 +83,34 @@ class Tree:
         pass
 
     def get_tree_depth(self):
-        return max(list(self.tree.keys()))
+        return max(list(self.tree.keys())) + 1
 
     @classmethod
     def tree_from_dict(cls, json_dict):
         from collections import deque
         tree = Tree()
         q = deque()
-        q.append({'parent':Node("root"),'children':json_dict})
+        q.append({
+            'parent': Node("root"),
+            'children': json_dict,
+            'level': 0
+                })
         while q:
             current_obj = q.popleft()
             current_parent = current_obj['parent']
-            tree.update_level()
             if not tree.root:
                 tree.add_node(current_parent)
+                current_obj['level'] += 1
             for i in current_obj['children']:
                 if type(current_obj['children'][i]) == dict:
                     node_obj = Node(i, current_parent)
-                    q.append({'parent':node_obj,'children':current_obj['children'][i]})
-                    tree.add_node(node_obj)
+                    q.append({
+                        'parent': node_obj,
+                        'children': current_obj['children'][i],
+                        'level': current_obj['level'] + 1
+                            })
+                    tree.add_node(node_obj, current_obj['level'])
                 else:
                     node_obj = Node(i, current_parent)
-                    tree.add_node(node_obj)
+                    tree.add_node(node_obj, current_obj['level'])
         return tree

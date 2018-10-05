@@ -24,6 +24,10 @@ class smartJSON:
                 result[node.data] = "..."
         return str(result)
 
+    def __iter__(self):
+        for i in self.json:
+            yield i
+
     def get_attrs(self, *attrs):
         result = {i: [] for i in attrs}
         for n, node in self.json:

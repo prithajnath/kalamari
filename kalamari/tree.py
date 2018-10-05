@@ -123,6 +123,24 @@ class Tree:
                         'level': current_obj['level'] + 1
                             })
                     tree.add_node(node_obj, current_obj['level'])
+                elif type(current_obj['children'][i]) == list:
+                    weird_list = current_obj['children'][i]
+                    list_type = set([type(obj) for obj in weird_list]).pop()
+                    if list_type == str:
+                        # Create Node instances from str values and add them to the tree
+                        node_obj = Node(i, current_parent)
+                        for some_str in weird_list:
+                            node_obj.add_value(some_str)
+                        tree.add_node(node_obj, current_obj['level'])
+                    elif list_type == dict:
+                        # Append dicts to queue, w respective parent and level values
+                        node_obj = Node(i, current_parent)
+                        for some_dict in weird_list:
+                            q.append({
+                                'parent': node_obj,
+                                'children': some_dict,
+                                'level': current_obj['level'] + 1
+                            })
                 else:
                     node_obj = Node(i, current_parent)
                     node_obj.add_value(current_obj['children'][i])

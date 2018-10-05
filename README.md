@@ -18,6 +18,8 @@ After creating this archive file, you can install the package via `pip3`
 sudo pip3 install kalamari-0.1dev.tar.gz
 ```
 
+## Usage
+
 ### Initialization
 All major extraction methods are available through instances of the `smartJSON` class.
 ```py
@@ -26,7 +28,7 @@ All major extraction methods are available through instances of the `smartJSON` 
 >>> r = requests.get('https://yourapi.io/someendpoint') # returns some JSON
 >>> data = smartJSON(r.content)
 ```
-### Usage
+### Fetching data
 Say that the above GET request returns the following information and you'd like to extract the highest number of views accumulated for a video
 
 ```json
@@ -69,6 +71,62 @@ Pretty cool right? You can also fetch more than one attribute at a time.
 
 * `get_attrs()`
  * This is the simplest method. It accepts the names of all the attributes that you wish to extract and returns a `dict`. (Used in above example)
+* `get_attrs_by()`
+ * This method accepts names of attributes and a boolean function. It applies that function to all `Node` objects in a tree and only returns the values of nodes which satisfy the condition. The boolean function should accept two arguments, depth(`int`) and node(`Node`). Say you want to extract the resident IDs and house IDs separately from the following JSON
+
+ ```json
+ {
+  "houses": {
+    "0": {
+      "id": "451478",
+      "location": "Plattsburgh, NY",
+      "zip": "12901",
+      "owner": "John Doe",
+      "residents": {
+        "0": {
+          "id": "7004",
+          "name": "Alan Turing",
+          "occupation": "Computer Scientist"
+        },
+        "1": {
+          "id": "6004",
+          "name": "Grace Hopper",
+          "occupation": "Software Engineer"
+        }
+      }
+    },
+    "1": {
+      "id": "451648",
+      "location": "Albany, NY",
+      "zip": "12901",
+      "owner": "Alex Turner",
+      "residents": {
+        "0": {
+          "id": "6549",
+          "name": "Liam Gallagher",
+          "occupation": "Musician"
+        },
+        "1": {
+          "id": "5470",
+          "name": "Noel Gallagher",
+          "occupation": "Musician"
+        }
+      }
+    }
+  }
+}
+ ```
+ You can pass a boolean function to `get_attrs_by` to achieve this
+
+ ```py
+ >>> house_ids = data.get_attrs_by(lambda depth,node:node.get_parent().get_parent().data=="houses","id")
+ >>> resident_ids = data.get_attrs_by(lambda depth,node:node.get_parent().get_parent().data=="residents","id")
+ >>> house_ids
+ >>> {'id': ['451478', '451648']}
+ >>> resident_ids
+ >>> {'id': ['7004', '6004', '6549', '5470']}
+ ```
+
 * `get_attrs_by_key()`
  * This method accepts a regular expression and returns all attributes that match that regular expression
 * `get_attrs_by_value()`

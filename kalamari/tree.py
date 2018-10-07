@@ -35,7 +35,6 @@ class Node:
         else:
             return self.container
 
-
 class Tree:
     def __init__(self, root=None):
         self.root = root
@@ -54,6 +53,18 @@ class Tree:
         for i in self.tree:
             for j in self.tree[i]:
                 yield (i, j)
+        
+    def bfs(self):
+        from collections import deque
+        q = deque()
+        q.append(self.root)
+
+        while len(q) != 0:
+            curr = q.popleft()
+            print(curr.children)
+            for i in curr.children:
+                if len(i.children) > 0:
+                    q.append(i)
 
     def add_node(self, node, level=0):
         if self.root:
@@ -80,6 +91,10 @@ class Tree:
         #                             |
         #                             | -- node5
         #                             | -- node6
+        #self.bfs()
+        res = self.print_tree(self.root)
+        print(res)
+        # self.__iter__()
         pass
 
     def head(self):
@@ -93,6 +108,36 @@ class Tree:
         #                             | -- node6
         #                             | -- node7 -- ...
         pass
+
+    def print_tree(self, node, depth=0):
+        ret = ""
+        children = node.children
+        midIndex = int(len(children) / 2) - 1
+        top = children[:midIndex+1]
+        bottom = children[midIndex+1:]
+
+        # Print right branch
+        if top != None and len(top) > 0:
+            for ind, i in enumerate(top):
+                if ind == 0:
+                    ret += "\n"
+                ret += self.print_tree(i, depth + 1)
+
+        # Print own value
+        if depth > 0:
+            ret += "\n" + ("   "*depth) + "+---" + str(node.data)
+        else:
+            ret += "\n*" + str(node.data) 
+        # print("\n" + ("    "*depth) + str(self.data))
+
+        # Print left branch
+        if bottom != None and len(bottom) > 0:
+            for ind, i in enumerate(bottom):
+                ret += self.print_tree(i, depth + 1)
+                if ind == len(bottom) - 1:
+                    ret += "\n"
+
+        return ret
 
     @property
     def depth(self):

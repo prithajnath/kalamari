@@ -61,6 +61,46 @@ def nested_json_one():
     '''
     return smartJSON(data)
 
+@pytest.fixture
+def comp_json():
+    data = '''
+    {
+        "videos": {
+            "0": {
+            "title": "Pytest tutorial (1/5)",
+            "url": "https://myvid.com/454F5gK9700e",
+            "author": "pythonguy226",
+            "email": "pythonguy226@gmail.com",
+            "total_views": "4561452"
+            },
+            "1": {
+            "title": "JavaScript async await",
+            "url": "https://myvid.com/784F5gF9800e",
+            "author": "jsguy995",
+            "email": "jsguy995@gmail.com",
+            "total_views": "784569"
+            }
+        },
+        "secondvideos": {
+            "0": {
+            "title": "Pytest tutorial (1/5)",
+            "url": "https://myvid.com/454F5gK9700e",
+            "author": "pythonguy226",
+            "email": "pythonguy226@gmail.com",
+            "total_views": "4561452"
+            },
+            "1": {
+            "title": "JavaScript async await",
+            "url": "https://myvid.com/784F5gF9800e",
+            "author": "jsguy995",
+            "email": "jsguy995@gmail.com",
+            "total_views": "784569"
+            }
+        }
+    }
+    '''
+    return smartJSON(data)
+
 
 def test_get_attrs(basic_json):
     attrs = basic_json.get_attrs("author", "total_views")
@@ -111,3 +151,8 @@ def test_get_attrs_by_parent_w_simple_string(nested_json_one):
                     {'location': '5 Park Av, NY, NY 10010',
                         'email': 'alice@efgcompany.com',
                         'phone': '7564525797'}]}
+
+
+def test_reveal(basic_json):
+    basic_json.reveal()
+    assert False

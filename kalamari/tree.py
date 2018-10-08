@@ -1,8 +1,9 @@
 from .exceptions import OverrideRootError, TreeHeightError
+from typing import List
 
 
 class Node:
-    def __init__(self, data, parent=None):
+    def __init__(self, data: str, parent: None or 'Node'=None) -> None:
         self.data = data
         self.parent = parent
         self.children = []
@@ -11,50 +12,50 @@ class Node:
         if self.parent:
             self.parent.add_child(self)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.data
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return self.data
 
-    def add_child(self, node):
+    def add_child(self, node: 'Node') -> None:
         self.children.append(node)
 
-    def add_value(self, value):
+    def add_value(self, value: str) -> None:
         self.container.append(value)
 
-    def get_parent(self):
+    def get_parent(self) -> 'Node':
         return self.parent
 
-    def get_children(self):
+    def get_children(self) -> List['Node']:
         return self.children
 
-    def get_value(self):
+    def get_value(self) -> 'Node' or str:
         if len(self.container) == 1:
             return self.container[0]
         else:
             return self.container
 
 class Tree:
-    def __init__(self, root=None):
+    def __init__(self, root: None or Node =None) -> None:
         self.root = root
         if self.root:
             self.tree = {0: [self.root]}
         else:
             self.tree = {}
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return str(self.tree)
 
-    def __getitem__(self, level):
+    def __getitem__(self, level: int) -> List[Node]:
         return self.tree[level]
 
-    def __iter__(self):
+    def __iter__(self) -> (int, Node):
         for i in self.tree:
             for j in self.tree[i]:
                 yield (i, j)
 
-    def add_node(self, node, level=0):
+    def add_node(self, node: Node, level: int =0) -> None:
         if self.root:
             if level:
                 try:
@@ -105,11 +106,11 @@ class Tree:
         return ret
 
     @property
-    def depth(self):
+    def depth(self) -> int:
         return sum(1 for key in self.tree.keys())
 
     @classmethod
-    def tree_from_dict(cls, json_dict):
+    def tree_from_dict(cls, json_dict: dict) -> 'Tree':
         from collections import deque
         tree = cls()
         q = deque()

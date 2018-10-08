@@ -71,11 +71,11 @@ class Tree:
             self.root = node
             self.tree.update({0: [self.root]})
 
-    def reveal(self):
+    def reveal(self) -> str:
         res = self.print_tree(self.root, "", True, 1000)  # assuming a max depth of a 1000.
         return res
 
-    def peek(self):
+    def peek(self) -> str:
         if (self.depth > 3):
             res = self.print_tree(self.root, "", True, 3)
             return res
@@ -90,7 +90,7 @@ class Tree:
     indent accordingly. The maxDepth (int) and depth (int) are used by the peek() function
     to limit how deep in the tree we traverse.
     '''
-    def print_tree(self, node, indent, lastChild, maxDepth, depth=0):
+    def print_tree(self, node: Node, indent: str, lastChild: bool, maxDepth: int, depth: int =0) -> str:
         ret = indent + "+--" + str(node) + "\n"
 
         if depth > maxDepth:

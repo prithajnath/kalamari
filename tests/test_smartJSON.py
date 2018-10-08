@@ -112,11 +112,43 @@ def test_get_attrs_by_parent_w_simple_string(nested_json_one):
                         'phone': '7564525797'}]}
 
 
-def test_reveal(nested_json_one):
-    revealed = nested_json_one.reveal()
-    assert True
+def test_reveal(basic_json):
+    revealed = basic_json.reveal()
+    expected = '''+--root
+   +--videos
+      +--0
+      |  +--title
+      |  +--url
+      |  +--author
+      |  +--email
+      |  +--total_views
+      +--1
+         +--title
+         +--url
+         +--author
+         +--email
+         +--total_views
+'''
+
+    assert revealed == expected
 
 
-def test_peek(comp_json):
-    reveal = comp_json.peek()
-    assert False
+def test_peek(basic_json):
+    peek = basic_json.reveal()
+    expected = '''+--root
+   +--videos
+      +--0
+      |  +--title
+      |  +--url
+      |  +--author
+      |  +--email
+      |  +--total_views
+      +--1
+         +--title
+         +--url
+         +--author
+         +--email
+         +--total_views
+'''
+
+    assert peek == expected

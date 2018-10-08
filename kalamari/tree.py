@@ -53,18 +53,6 @@ class Tree:
         for i in self.tree:
             for j in self.tree[i]:
                 yield (i, j)
-        
-    def bfs(self):
-        from collections import deque
-        q = deque()
-        q.append(self.root)
-
-        while len(q) != 0:
-            curr = q.popleft()
-            print(curr.children)
-            for i in curr.children:
-                if len(i.children) > 0:
-                    q.append(i)
 
     def add_node(self, node, level=0):
         if self.root:
@@ -83,60 +71,37 @@ class Tree:
             self.tree.update({0: [self.root]})
 
     def reveal(self):
-        # do bfs
-        # print tree horizontally
-        #           | --   node1 -- node3
-        #   root -- |
-        #           | --   node2 -- node4
-        #                             |
-        #                             | -- node5
-        #                             | -- node6
-        #self.bfs()
-        res = self.print_tree(self.root)
-        print(res)
-        # self.__iter__()
-        pass
+        res = self.print_tree(self.root, "", True, 1000)  # assuming a max depth of a 1000.
+        return res
 
-    def head(self):
-        # do bfs for 1 to 3 levels, depending on self.depth
-        # print tree horizontally
-        #           | --   node1 -- node3
-        #   root -- |
-        #           | --   node2 -- node4
-        #                             |
-        #                             | -- node5
-        #                             | -- node6
-        #                             | -- node7 -- ...
-        pass
+    def peek(self):
+        if (self.depth > 3):
+            res = self.print_tree(self.root, "", True, 3)
+            return res
+        
+        # since the tree is small, just reveal the whole tree
+        self.reveal()
 
-    def print_tree(self, node, depth=0):
-        ret = ""
-        children = node.children
-        midIndex = int(len(children) / 2) - 1
-        top = children[:midIndex+1]
-        bottom = children[midIndex+1:]
+        
+    '''
+    the idea is to recurse through the tree and pretty-print the node and the children
+    the indent (string) and the lastChild (bool) keeps track of which child we look at and
+    indent accordingly. The maxDepth (int) and depth (int) are used by the peek() function
+    to limit how deep in the tree we traverse.
+    '''
+    def print_tree(self, node, indent, lastChild, maxDepth, depth=0):
+        ret = indent + "+--" + str(node) + "\n"
 
-        # Print right branch
-        if top != None and len(top) > 0:
-            for ind, i in enumerate(top):
-                if ind == 0:
-                    ret += "\n"
-                ret += self.print_tree(i, depth + 1)
+        if depth > maxDepth:
+            return ret
 
-        # Print own value
-        if depth > 0:
-            ret += "\n" + ("   "*depth) + "+---" + str(node.data)
+        if lastChild:
+            indent += "   "
         else:
-            ret += "\n*" + str(node.data) 
-        # print("\n" + ("    "*depth) + str(self.data))
+            indent += "|  "
 
-        # Print left branch
-        if bottom != None and len(bottom) > 0:
-            for ind, i in enumerate(bottom):
-                ret += self.print_tree(i, depth + 1)
-                if ind == len(bottom) - 1:
-                    ret += "\n"
-
+        for index, child in enumerate(node.children):
+            ret += self.print_tree(child, indent, index == len(node.children) - 1, maxDepth, depth + 1)
         return ret
 
     @property

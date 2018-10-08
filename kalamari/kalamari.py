@@ -89,5 +89,15 @@ class smartJSON:
     def reveal(self):
         if self.json == None:
             print("No data available")
-            return
-        self.json.reveal()
+            return None
+        res = self.json.reveal()
+        print(res)
+        return res
+
+    def peek(self):
+        if self.json == None:
+            print("No data available")
+            return None
+        res = self.json.peek()
+        print(res)
+        return res

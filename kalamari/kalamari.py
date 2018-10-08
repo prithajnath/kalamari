@@ -24,6 +24,18 @@ class smartJSON:
                 result[node.data] = "..."
         return str(result)
 
+    def __len__(self):
+        return self.json.depth
+
+    def __getitem__(self, key):
+        if isinstance(key, slice):
+            result = []
+            for i in range(len(self.json.tree)):
+                result.append(self.json[i])
+            return result[key]
+        elif isinstance(key, int):
+            return self.json[key]
+
     def get_attrs(self, *attrs):
         result = {i: [] for i in attrs}
         for n, node in self.json:

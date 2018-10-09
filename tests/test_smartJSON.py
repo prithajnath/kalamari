@@ -111,3 +111,55 @@ def test_get_attrs_by_parent_w_simple_string(nested_json_one):
                     {'location': '5 Park Av, NY, NY 10010',
                         'email': 'alice@efgcompany.com',
                         'phone': '7564525797'}]}
+
+
+def test_revert_smartJSON_w_basic_json(basic_json):
+    reverted = dict(basic_json)
+    assert reverted == dict({
+        "videos": {
+            "0": {
+                "title": "Pytest tutorial (1/5)",
+                "url": "https://myvid.com/454F5gK9700e",
+                "author": "pythonguy226",
+                "email": "pythonguy226@gmail.com",
+                "total_views": "4561452"
+            },
+            "1": {
+                "title": "JavaScript async await",
+                "url": "https://myvid.com/784F5gF9800e",
+                "author": "jsguy995",
+                "email": "jsguy995@gmail.com",
+                "total_views": "784569"
+            }
+        }
+    })
+
+
+def test_revert_smartJSON_w_nested_json_one(nested_json_one):
+    reverted = dict(nested_json_one)
+    assert reverted == dict({
+        "people": {
+            "0": {
+                "name": "John Doe",
+                "location": "22 Clarke Av, NY, NY 10010",
+                "work": {
+                    "location": "7 Broad St, Plattsburgh, NY 1290",
+                    "email": "john@xyzcompany.com",
+                    "phone": "1487557498"
+                },
+                "email": "john@gmail.com",
+                "phone": "7951487658"
+            },
+            "1": {
+                "name": "Alice Cooper",
+                "location": "10 Broad St, Plattsburgh, NY 1290",
+                "work": {
+                    "location": "5 Park Av, NY, NY 10010",
+                    "email": "alice@efgcompany.com",
+                    "phone": "7564525797"
+                },
+                "email": "alice@gmail.com",
+                "phone": "5784697814"
+            }
+        }
+    })

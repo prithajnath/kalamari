@@ -134,7 +134,7 @@ def test_reveal(basic_json):
 
 
 def test_peek(basic_json):
-    peek = basic_json.reveal()
+    peek = basic_json.peek()
     expected = '''+--root
    +--videos
       +--0

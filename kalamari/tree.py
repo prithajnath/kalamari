@@ -86,23 +86,23 @@ class Tree:
         
     '''
     the idea is to recurse through the tree and pretty-print the node and the children
-    the indent (string) and the lastChild (bool) keeps track of which child we look at and
-    indent accordingly. The maxDepth (int) and depth (int) are used by the peek() function
+    the indent (string) and the last_child (bool) keeps track of which child we look at and
+    indent accordingly. The max_depth (int) and depth (int) are used by the peek() function
     to limit how deep in the tree we traverse.
     '''
-    def print_tree(self, node: Node, indent: str, lastChild: bool, maxDepth: int, depth: int =0) -> str:
+    def print_tree(self, node: Node, indent: str, last_child: bool, max_depth: int, depth: int =0) -> str:
         ret = indent + "+--" + str(node) + "\n"
 
-        if depth > maxDepth:
+        if depth > max_depth:
             return ret
 
-        if lastChild:
+        if last_child:
             indent += "   "
         else:
             indent += "|  "
 
         for index, child in enumerate(node.children):
-            ret += self.print_tree(child, indent, index == len(node.children) - 1, maxDepth, depth + 1)
+            ret += self.print_tree(child, indent, index == len(node.children) - 1, max_depth, depth + 1)
         return ret
 
     @property

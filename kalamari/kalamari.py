@@ -86,31 +86,31 @@ class smartJSON:
                         result[node.data] = [value_dict]
         return result
 
-    def reverte_to_dict(self, current_node):
+    def reverte_smartJSON(self, current_node):
         if type(current_node).__name__ == 'Node':
             if len(current_node.container) == 1:
-                return {current_node.data: current_node.container[0]}
+                return {str(current_node.data): str(current_node.container[0])}
             else:
-                return {current_node.data: current_node.container}
+                return {str(current_node.data): current_node.container}
         else:
             if len(current_node) == 1:
                 current_node = current_node[0]
-                res = self.reverte_to_dict(current_node.children)
+                res = self.reverte_smartJSON(current_node.children)
                 return {str(current_node.data): res}
             else:
                 res = {}
                 for i in range(len(current_node)):
                     if current_node[i].container != []:
                         if len(current_node[i].container) == 1:
-                            res = {**res, current_node[i].data: current_node[i].container[0]}
+                            res = {**res, str(current_node[i].data): str(current_node[i].container[0])}
                         else:
-                            res = {**res, current_node[i].data: current_node[i].container}
+                            res = {**res, str(current_node[i].data): current_node[i].container}
                     else:
-                        r = self.reverte_to_dict(current_node[i].children)
-                        res = {**res, current_node[i]: r}
+                        r = self.reverte_smartJSON(current_node[i].children)
+                        res = {**res, str(current_node[i]): r}
                 return res
 
     def __iter__(self):
-        reverted_tree = self.reverte_to_dict(self.json[0])
+        reverted_tree = self.reverte_smartJSON(self.json[0])
         for x, y in reverted_tree['root'].items():
             yield x, y

@@ -24,6 +24,18 @@ class smartJSON:
                 result[node.data] = "..."
         return str(result)
 
+    def __len__(self):
+        return self.json.depth
+
+    def __getitem__(self, key):
+        if isinstance(key, slice):
+            result = []
+            for i in range(len(self.json.tree)):
+                result.append(self.json[i])
+            return result[key]
+        elif isinstance(key, int):
+            return self.json[key]
+
     def get_attrs(self, *attrs):
         result = {i: [] for i in attrs}
         for n, node in self.json:
@@ -86,6 +98,24 @@ class smartJSON:
                         result[node.data] = [value_dict]
         return result
 
+
+    def reveal(self):
+        if self.json == None:
+            print("No data available")
+            return None
+        res = self.json.reveal()
+        print(res)
+        return res
+
+    def peek(self):
+        if self.json == None:
+            print("No data available")
+            return None
+        res = self.json.peek()
+        print(res)
+        return res
+
+      
     def revert_smartJSON(self, current_node):
         if type(current_node).__name__ == 'Node':
             if len(current_node.container) == 1:

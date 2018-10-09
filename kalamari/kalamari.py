@@ -88,21 +88,27 @@ class smartJSON:
 
     def revert_smartJSON(self, current_node):
         if type(current_node).__name__ == 'Node':
-            if len(current_node.container) == 1:
-                return {str(current_node.data): str(current_node.container[0])}
+            if len(current_node.container) == 1 :
+                return {str(current_node.data): current_node.container[0]}
             else:
                 return {str(current_node.data): current_node.container}
         else:
             if len(current_node) == 1:
                 current_node = current_node[0]
-                res = self.revert_smartJSON(current_node.children)
-                return {str(current_node.data): res}
+                if current_node.container != []:
+                    if len(current_node.container) == 1:
+                        return {str(current_node.data): current_node.container[0]}
+                    else:
+                        return {str(current_node.data): current_node.container}
+                else:
+                    res = self.revert_smartJSON(current_node.children)
+                    return {str(current_node.data): res}
             else:
                 res = {}
                 for i in range(len(current_node)):
                     if current_node[i].container != []:
                         if len(current_node[i].container) == 1:
-                            res = {**res, str(current_node[i].data): str(current_node[i].container[0])}
+                            res = {**res, str(current_node[i].data): current_node[i].container[0]}
                         else:
                             res = {**res, str(current_node[i].data): current_node[i].container}
                     else:

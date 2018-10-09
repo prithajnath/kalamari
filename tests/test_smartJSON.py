@@ -61,7 +61,6 @@ def nested_json_one():
     '''
     return smartJSON(data)
 
-
 def test_get_attrs(basic_json):
     attrs = basic_json.get_attrs("author", "total_views")
     assert attrs == {'author': ['pythonguy226', 'jsguy995'], 'total_views': ['4561452', '784569']}
@@ -111,3 +110,45 @@ def test_get_attrs_by_parent_w_simple_string(nested_json_one):
                     {'location': '5 Park Av, NY, NY 10010',
                         'email': 'alice@efgcompany.com',
                         'phone': '7564525797'}]}
+
+
+def test_reveal(basic_json):
+    revealed = basic_json.reveal()
+    expected = '''+--root
+   +--videos
+      +--0
+      |  +--title
+      |  +--url
+      |  +--author
+      |  +--email
+      |  +--total_views
+      +--1
+         +--title
+         +--url
+         +--author
+         +--email
+         +--total_views
+'''
+
+    assert revealed == expected
+
+
+def test_peek(basic_json):
+    peek = basic_json.peek()
+    expected = '''+--root
+   +--videos
+      +--0
+      |  +--title
+      |  +--url
+      |  +--author
+      |  +--email
+      |  +--total_views
+      +--1
+         +--title
+         +--url
+         +--author
+         +--email
+         +--total_views
+'''
+
+    assert peek == expected

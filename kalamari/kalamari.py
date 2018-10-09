@@ -97,3 +97,19 @@ class smartJSON:
                     except KeyError:
                         result[node.data] = [value_dict]
         return result
+
+    def reveal(self):
+        if self.json == None:
+            print("No data available")
+            return None
+        res = self.json.reveal()
+        print(res)
+        return res
+
+    def peek(self):
+        if self.json == None:
+            print("No data available")
+            return None
+        res = self.json.peek()
+        print(res)
+        return res

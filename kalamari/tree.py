@@ -21,6 +21,10 @@ class Node:
     def add_child(self, node: 'Node') -> None:
         self.children.append(node)
 
+    def add_parent(self, node: 'Node') -> None:
+        self.parent = node
+        node.children.append(self)
+
     def add_value(self, value: str) -> None:
         self.container.append(value)
 
@@ -79,11 +83,11 @@ class Tree:
         if (self.depth > 3):
             res = self.print_tree(self.root, "", True, 3)
             return res
-        
+
         # since the tree is small, just reveal the whole tree
         self.reveal()
 
-        
+
     '''
     the idea is to recurse through the tree and pretty-print the node and the children
     the indent (string) and the last_child (bool) keeps track of which child we look at and

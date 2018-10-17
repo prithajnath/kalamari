@@ -47,12 +47,25 @@ class smartJSON:
         result = {}
         for n, node in self.json:
             try:
-                if f(n, node) and node.container:
-                    if node.data in attrs:
-                        try:
-                            result[node.data].append(node.get_value())
-                        except KeyError:
-                            result[node.data] = [node.get_value()]
+                if f(n, node):
+                    if node.container:
+                        if node.data in attrs:
+                            try:
+                                result[node.data].append(node.get_value())
+                            except KeyError:
+                                result[node.data] = [node.get_value()]
+                    else: # has children (only grabs string key:values and does not traverse deeper children dicts)
+                        if node.data in attrs:
+                            children = node.get_children()
+                            data_nodes = [k for k in children if not k.container]
+                            container_nodes = [j for j in children if j.container]
+                            data_node_values = {kk.data:"{...}" for kk in data_nodes}
+                            container_nodes_values = {jj.data:jj.get_value() for jj in container_nodes}
+
+                            try:
+                                result[node.data].append({**data_node_values, **container_nodes_values})
+                            except KeyError:
+                                result[node.data] = [{**data_node_values, **container_nodes_values}]
             except AttributeError: # tree exhausted
                 continue
         return result
@@ -115,7 +128,6 @@ class smartJSON:
         print(res)
         return res
 
-      
     def revert_smartJSON(self, current_node):
         if type(current_node).__name__ == 'Node':
             if len(current_node.container) == 1 :

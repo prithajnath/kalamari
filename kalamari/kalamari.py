@@ -111,6 +111,7 @@ class smartJSON:
                         result[node.data] = [value_dict]
         return result
 
+
     def reveal(self):
         if self.json == None:
             print("No data available")
@@ -126,3 +127,38 @@ class smartJSON:
         res = self.json.peek()
         print(res)
         return res
+
+    def revert_smartJSON(self, current_node):
+        if type(current_node).__name__ == 'Node':
+            if len(current_node.container) == 1 :
+                return {str(current_node.data): current_node.container[0]}
+            else:
+                return {str(current_node.data): current_node.container}
+        else:
+            if len(current_node) == 1:
+                current_node = current_node[0]
+                if current_node.container != []:
+                    if len(current_node.container) == 1:
+                        return {str(current_node.data): current_node.container[0]}
+                    else:
+                        return {str(current_node.data): current_node.container}
+                else:
+                    res = self.revert_smartJSON(current_node.children)
+                    return {str(current_node.data): res}
+            else:
+                res = {}
+                for i in range(len(current_node)):
+                    if current_node[i].container != []:
+                        if len(current_node[i].container) == 1:
+                            res = {**res, str(current_node[i].data): current_node[i].container[0]}
+                        else:
+                            res = {**res, str(current_node[i].data): current_node[i].container}
+                    else:
+                        r = self.revert_smartJSON(current_node[i].children)
+                        res = {**res, str(current_node[i]): r}
+                return res
+
+    def __iter__(self):
+        reverted_tree = self.revert_smartJSON(self.json[0])
+        for x, y in reverted_tree['root'].items():
+            yield x, y
